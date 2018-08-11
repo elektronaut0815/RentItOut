@@ -47,8 +47,7 @@ contract Rental {
     }
     
     //another tenant takes over
-    function rentItemFromLastTenant() public onlyIfAvailable enoughDeposit payable {
-        require(tenant != address(0));
+    function rentItemFromLastTenant() public onlyIfAvailable enoughDeposit rented payable {
         updateItemValueAndRentalFee();
         uint rentAmount = calculateRent();
         owner.transfer(rentAmount);
@@ -68,8 +67,7 @@ contract Rental {
         contractBalance = 0;
     }
     
-    function updateItemValueAndRentalFee() public onlyOwner returns(uint[]) {
-        require(tenant != 0);
+    function updateItemValueAndRentalFee() public onlyOwner rented returns(uint[]) {
         uint passedTime = secondsToDays(now - rentStarted);
         if(passedTime > 0) {
             itemValue = itemValue - (passedTime * (rentalFee / depreciationDivisor));
@@ -102,7 +100,7 @@ contract Rental {
     
     //Owner diminishes return fee in order to incentivize returning the item
     function diminishReturnFee(uint newFee) public onlyOwner {
-        require(newFee < returnFee);
+        require(newFee < returnFee, "Fee can only be reduced during rent.");
         returnFee = newFee;
     }
     
@@ -115,22 +113,27 @@ contract Rental {
     }
       
     modifier enoughDeposit() {
-        require(msg.value >= itemValue + returnFee + extraDeposit);
+        require(msg.value >= itemValue + returnFee + extraDeposit, "Not enough cash sent.");
         _;
     }
     
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Restricted to owner.");
         _;
     }
     
     modifier onlyIfAvailable() {
-        require(availableForRent && itemValue > 0);
+        require(availableForRent && itemValue > 0, "Rental not possible.");
         _;
     }
     
     modifier notRented() {
-        require(tenant == 0);
+        require(tenant == address(0), "Item is rented!");
+        _;
+    }
+
+    modifier rented() {
+        require(tenant != address(0), "Item is not rented!");
         _;
     }
     
