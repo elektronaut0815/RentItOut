@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Rent items on the blockchain!",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "repository": "https://github.com/elektronaut0815/RentItOut.git",
   "author": "Hendrik Bilges <elektronaut0815@users.noreply.github.com>",
   "license": "MIT",
