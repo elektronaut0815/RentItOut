@@ -35,4 +35,34 @@ describe('Rentals', () => {
     assert.ok(factory.options.address);
     assert.ok(rental.options.address);
   });
+
+  it('marks caller as the item owner', async () => {
+    const owner = await rental.methods.owner().call();
+    assert.equal(accounts[0], owner);
+  });
+
+  it('allows to rent the item from the owner', async () => {
+    await rental.methods.rentItemFromOwner().send({
+      value: '1510000000000000000',
+      from: accounts[1]
+    });
+    const tenant = await rental.methods.tenant().call();
+    assert(tenant == accounts[1]);
+  });
+
+  xit('allows to rent the item from the last tenant', async () => {
+    await rental.methods.rentItemFromOwner().send({
+      value: '1510000000000000000',
+      from: accounts[1]
+    });
+    const lastTenant = await rental.methods.tenant().call();
+    assert(lastTenant == accounts[1]);
+
+    await rental.methods.rentItemFromLastTenant().send({
+      value: '1510000000000000000',
+      from: accounts[2]
+    });
+    const tenant = await rental.methods.tenant().call();
+    assert(tenant == accounts[2]);
+  });
 });
