@@ -1,5 +1,5 @@
 {
-  "name": "RentItOut",
+  "name": "rent_it_out",
   "version": "0.0.1",
   "description": "Rent items on the blockchain!",
   "main": "index.js",
