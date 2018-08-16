@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 
 class RentalIndex extends Component {
@@ -27,7 +27,13 @@ class RentalIndex extends Component {
           rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
         />
+        <h3>Items to rent</h3>
         {this.renderRentals()}
+        <Button
+          content="Create Rental Offer"
+          icon="add circle"
+          primary
+        />
       </div>
     );
   }
