@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
@@ -10,18 +10,24 @@ class RentalNew extends Component {
     value: '',
     extra_deposit: '',
     rental_fee: '',
-    return_fee: ''
+    return_fee: '',
+    errorMessage: ''
   };
 
   onSubmit = async (event) => {
     event.preventDefault();
 
-    const accounts = await web3.eth.getAccounts();
-    await factory.methods
-    .createRental(this.state.description, this.state.value, this.state.extra_deposit, this.state.rental_fee, this.state.return_fee)
-    .send({
-      from: accounts[0]
-    });
+    try {
+      const accounts = await web3.eth.getAccounts();
+      await factory.methods
+      .createRental(this.state.description, this.state.value, this.state.extra_deposit, this.state.rental_fee, this.state.return_fee)
+      .send({
+        from: accounts[0]
+      });
+    } catch (err) {
+      this.setState({ errorMessage: err.message });
+    }
+
   };
 
   render() {
@@ -29,7 +35,7 @@ class RentalNew extends Component {
       <Layout>
         <h3>Create a rental!</h3>
 
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
           <Form.Field>
             <label>Description</label>
             <Input
@@ -74,6 +80,7 @@ class RentalNew extends Component {
             />
           </Form.Field>
 
+          <Message error header="An error occurred!" content={this.state.errorMessage} />
           <Button primary>Create</Button>
         </Form>
       </Layout>
