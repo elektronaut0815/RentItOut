@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import Layout from '../components/Layout';
+import { Link } from '../routes';
 
 class RentalIndex extends Component {
   static async getInitialProps() {
@@ -26,7 +27,17 @@ class RentalIndex extends Component {
       <Layout>
         <div>
           <h3>Items to rent</h3>
-          <Button floated="right" content="Create Rental Offer" icon="add circle" primary />
+
+          <Link route="/rentals/new">
+            <a>
+              <Button
+                floated="right"
+                content="Create Rental Offer"
+                icon="add circle"
+                primary
+              />
+            </a>
+          </Link>
           {this.renderRentals()}
         </div>
       </Layout>
