@@ -15,7 +15,11 @@ class RentalIndex extends Component {
     const items = this.props.rentals.map(address => {
       return {
         header: address,
-        description: <a>View Rental Offer</a>,
+        description: (
+          <Link route={`/rentals/${address}`}>
+            <a>View Rental Offer</a>
+          </Link>
+        ),
         fluid: true
       };
     });
