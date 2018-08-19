@@ -37,7 +37,7 @@ class RentalNew extends Component {
   render() {
     return (
       <Layout>
-        <h3>Create a rental!</h3>
+        <h3>Create a rental offer!</h3>
 
         <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
           <Form.Field>
