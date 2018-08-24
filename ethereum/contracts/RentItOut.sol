@@ -39,6 +39,10 @@ contract Rental {
         availableForRent = true;
         contractBalance = 0;
     }
+
+    function getSummary() public view returns (address, string, uint, uint, uint, uint, address, bool) {
+        return (owner, itemDescription, itemValue, extraDeposit, rentalFee, returnFee, tenant, availableForRent);
+    }
     
     function rentItemFromOwner() public onlyIfAvailable notRented enoughDeposit payable {
         tenant = msg.sender;
