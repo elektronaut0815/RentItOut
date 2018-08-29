@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Icon } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import Rental from '../../ethereum/rental';
+import RentItForm from '../../components/RentItForm';
 
 class RentalOfferShow extends Component {
   static async getInitialProps(props) {
@@ -72,6 +73,7 @@ class RentalOfferShow extends Component {
       <Layout>
         <h3>Rental Offer Show</h3>
         {this.renderCards()}
+        <RentItForm itemValue={this.props.itemValue} extraDeposit={this.props.extraDeposit} rentalFee={this.props.rentalFee} returnFee={this.props.returnFee}/>
       </Layout>
     );
   }
